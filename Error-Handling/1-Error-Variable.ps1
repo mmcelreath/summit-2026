@@ -1,4 +1,6 @@
 
+$Error.Clear()
+
 # Let's Generate some errors
 1/0
 Get-ChildItem c:\Does-Not-Exist
@@ -30,6 +32,9 @@ $?
 $Error.Clear()
 $Error
 
+# Generate some more errors
+Get-ChildItem c:\Does-Not-Exist
+
 # Get error details
 $Error[0]
 
@@ -45,23 +50,27 @@ $Error[0] | Format-Custom -Force
 $Error[0] | Select-Object *
 
 $Error[0].Exception
+$Error[0].ScriptStackTrace
 $Error[0].Exception.StackTrace
 
 
 
 
 $Error.Clear()
+cls
 
-try {
-    Get-ChildItem c:\Does-Not-Exist
-} catch {
-    Write-Host "An error occurred: $_"
-}
 
 try {
     1/0
 } catch {
-    Write-Host "An error occurred: $_"
+    Write-Host "An error occurred: $_" -ForegroundColor Magenta
+}
+
+
+try {
+    Get-ChildItem c:\Does-Not-Exist
+} catch {
+    Write-Host "An error occurred: $_" -ForegroundColor Magenta
 }
 
 
@@ -71,29 +80,37 @@ try {
     Write-Host "An error occurred: $_" -ForegroundColor Magenta
 }
 
+
+
 $Error[0]
 $Error[0] | Select-Object *
+
+Get-Error -Newest 1
 
 $Error.Clear()
 
 try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
 } catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found."
+    Write-Host "The item was not found." -ForegroundColor Magenta
 } catch {
-    Write-Host "A different error occurred: $_"
+    Write-Host "A different error occurred: $_" -ForegroundColor Magenta
 }
 
 Get-Error -Newest 1
 
+
 try {
-    Get-ChildItem C:\code -ErrorAction Stop
+    Get-ChildItem C:\code -ErrorAction Stop # This should succeed
     1/0
 } catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found."
+    Write-Host "The item was not found." -ForegroundColor Magenta
 } catch {
     Write-Host "A different error occurred: $_" -ForegroundColor Magenta
 }
+
+Get-Error -Newest 1
+
 
 try {
     1/0
@@ -104,6 +121,8 @@ try {
 } catch {
     Write-Host "An even different error occurred: $_" -ForegroundColor Magenta
 }
+
+
 
 try {
     Get-ChildItem2 c:\Does-Not-Exist
@@ -130,9 +149,19 @@ try {
 
 
 try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+    Get-ChildItem c:\Does-Not-Exist
 } catch {
     Write-Error -ErrorRecord $_
+    'Will this Print?'
+}
+
+
+
+try {
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+} catch {
+    Write-Error -ErrorRecord $_ -ErrorAction Stop
+    'Will this Print?'
 }
 
 
@@ -142,7 +171,11 @@ try {
     Write-Error "An error occurred: The specified path does not exist."
 }
 
+$Error[0] | Select-Object *
 
+
+
+$ErrorActionPreference
 
 $callerErrorActionPreference = $ErrorActionPreference
 
@@ -150,5 +183,9 @@ try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
 } catch {
     Write-Error -ErrorRecord $_ -ErrorAction $callerErrorActionPreference
+    'Will this Print?'
 }
 
+$ErrorActionPreference = 'SilentlyContinue'
+$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'

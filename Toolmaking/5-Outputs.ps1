@@ -56,6 +56,8 @@ Get-Stuff
 
 Get-Stuff | Get-Member
 
+Get-ChildItem ./1-Command-Line.ps1 | Get-Member
+
 
 
 function Get-Stuff {
