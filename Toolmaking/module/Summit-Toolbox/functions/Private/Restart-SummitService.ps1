@@ -5,9 +5,9 @@ function Restart-SummitService {
         [PSCredential]$Credential
     )
 
-    if ($ServiceName -eq "bits") {
-        $ServiceName = "bits-error"
-    }
+    # if ($ServiceName -eq "bits") {
+    #     $ServiceName = "bits-error"
+    # }
 
     Write-Warning "Restarting service '$ServiceName' on computer '$ComputerName'..."
     $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
