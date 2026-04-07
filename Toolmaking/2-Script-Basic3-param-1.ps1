@@ -1,7 +1,7 @@
 param (
-    [string]$ComputerName,
-    [string]$ServiceName,
-    [PSCredential]$Credential
+    $ComputerName,
+    $ServiceName,
+    $Credential
 )
 
 $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {

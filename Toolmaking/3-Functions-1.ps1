@@ -1,3 +1,38 @@
+<#
+.SYNOPSIS
+Manage Summit services remotely (get, start, stop, restart).
+
+.DESCRIPTION
+This script provides small wrapper functions to get and control a named Windows
+service on a remote computer using `Invoke-Command`. It exposes a simple
+parameterized interface at the top-level so it can be used interactively or
+as part of automation.
+
+.PARAMETER ComputerName
+The target computer where the service is running. Accepts DNS name or IP.
+
+.PARAMETER ServiceName
+The name of the Windows service to manage (as used by `Get-Service`).
+
+.PARAMETER Action
+The action to perform. Valid values are: `Get`, `Start`, `Stop`, `Restart`.
+
+.PARAMETER Credential
+A PSCredential object used for remote connections where alternate
+credentials are required.
+
+.EXAMPLE
+PS> .\3-Functions-1.ps1 -ComputerName srv01 -ServiceName "Spooler" -Action Get
+
+.EXAMPLE
+PS> .\3-Functions-1.ps1 -ComputerName srv01 -ServiceName "Spooler" -Action Stop
+
+.EXAMPLE
+PS> .\3-Functions-1.ps1 -ComputerName srv01 -ServiceName "Spooler" -Action Start
+
+.NOTES
+Author: Generated documentation
+#>
 param (
     [string]$ComputerName,
     [string]$ServiceName,
