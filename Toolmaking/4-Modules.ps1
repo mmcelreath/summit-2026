@@ -13,3 +13,7 @@ Update-SummitService -ComputerName dc -ServiceName bits -Action Start -Credentia
 Update-SummitService -ComputerName dc -ServiceName bits -Action Stop -Credential $cred
 
 Update-SummitService -ComputerName dc -ServiceName bits -Action Restart -Credential $cred
+
+Update-SummitService
+
+Get-BasicCommand

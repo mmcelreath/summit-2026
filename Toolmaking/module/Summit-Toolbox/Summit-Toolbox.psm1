@@ -23,4 +23,4 @@ Get-ChildItem -Path $PSScriptRoot\Functions\Private\*.ps1 | ForEach-Object { . $
 Get-ChildItem -Path $PSScriptRoot\Functions\Public\*.ps1 | ForEach-Object { . $_.FullName }
 
 # Export the functions
-Export-ModuleMember -Function Get-SummitGreeting, Update-SummitService, Get-SummitOfficeUser
+Export-ModuleMember -Function Get-SummitGreeting, Update-SummitService, Get-SummitOfficeUser, Get-BasicCommand
