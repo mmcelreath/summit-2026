@@ -3,7 +3,8 @@
 
 Get-ADUser
 
-Get-Help Get-ADUser
+Get-Help Get-ADUser -Full
+Get-Help Get-ADUser -Examples
 
 # Getting all users in Active Directory
 Get-ADUser -Filter *
