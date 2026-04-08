@@ -1,9 +1,9 @@
 
 $item = Get-ChildItem -Path "C:\NonExistentDirectory"
 
-# if ($item -eq $null) {
-#     throw("An error occurred while trying to access the directory.")
-# } 
+if ($item -eq $null) {
+    throw("An error occurred while trying to access the directory.")
+} 
 
 Get-Service -Name "NonExistentService"
 

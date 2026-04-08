@@ -141,3 +141,18 @@ Try {
     Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
 }
 
+
+
+
+$array = @('.\1.txt', '.\2.txt', '.\3.txt')
+
+foreach ($file in $array) {
+    try {
+        Get-ChildItem -Path $file -ErrorAction Stop
+    } catch {
+        Write-Error "Error accessing $file : $_"
+    }
+}
+
+$Error
+
