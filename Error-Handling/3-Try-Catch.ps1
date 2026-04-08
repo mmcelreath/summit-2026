@@ -151,6 +151,7 @@ foreach ($file in $array) {
         Get-ChildItem -Path $file -ErrorAction Stop
     } catch {
         Write-Error "Error accessing $file : $_"
+        # Throw("Error accessing $file : $_")
     }
 }
 
