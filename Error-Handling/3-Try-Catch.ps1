@@ -133,16 +133,7 @@ function Test-Error {
 Test-Error
 
 
-Try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch {
-    throw "An error occurred: The specified path does not exist."
-} finally {
-    Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
-}
-
-
-
+$Error.Clear()
 
 $array = @('.\1.txt', '.\2.txt', '.\3.txt')
 
@@ -152,8 +143,18 @@ foreach ($file in $array) {
     } catch {
         Write-Error "Error accessing $file : $_"
         # Throw("Error accessing $file : $_")
+
+        Start-Sleep -Seconds .5
     }
 }
 
 $Error
 
+
+Try {
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+} catch {
+    throw "An error occurred: The specified path does not exist."
+} finally {
+    Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
+}
