@@ -41,89 +41,41 @@ param (
     [PSCredential]$Credential
 )
 
-function Get-SummitService {
+function Set-SummitService {
     param (
         [string]$ComputerName,
         [string]$ServiceName,
+        [string]$Action,
         [PSCredential]$Credential
     )
 
-    $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Get-Service -Name $using:ServiceName
+    $scriptBlock = {
+        param ($ServiceName, $Action)
+        switch ($Action) {
+            "Get" { Get-Service -Name $ServiceName | Format-Table Name, Status, StartType }
+            "Start" { Start-Service -Name $ServiceName; Get-Service -Name $ServiceName | Format-Table Name, Status, StartType }
+            "Stop" { Stop-Service -Name $ServiceName; Get-Service -Name $ServiceName | Format-Table Name, Status, StartType }
+            "Restart" { Restart-Service -Name $ServiceName; Get-Service -Name $ServiceName | Format-Table Name, Status, StartType }
+        }
     }
 
-    $service | Select-Object Name, Status, StartType
-}
-
-function Start-SummitService {
-    param (
-        [string]$ComputerName,
-        [string]$ServiceName,
-        [PSCredential]$Credential
-    )
-
-    $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Start-Service -Name $using:ServiceName
-        Get-Service -Name $using:ServiceName
-    }
-
-    $service | Select-Object Name, Status, StartType
-}
-
-function Stop-SummitService {
-    param (
-        [string]$ComputerName,
-        [string]$ServiceName,
-        [PSCredential]$Credential
-    )
-
-    $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Stop-Service -Name $using:ServiceName -Verbose
-        Get-Service -Name $using:ServiceName
-    }
-
-    $service | Select-Object Name, Status, StartType
-}
-
-function Restart-SummitService {
-    param (
-        [string]$ComputerName,
-        [string]$ServiceName,
-        [PSCredential]$Credential
-    )
-
-    $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Restart-Service -Name $using:ServiceName
-        Get-Service -Name $using:ServiceName
-    }
-
-    $service | Select-Object Name, Status, StartType
+    Invoke-Command -ComputerName $ComputerName -Credential $Credential -ScriptBlock $scriptBlock -ArgumentList $ServiceName, $Action
 }
 
 switch ($Action.ToLower()) {
     "get" {
-        Get-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
+        Set-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Action "Get" -Credential $Credential
     }
     "start" {
-        Start-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
+        Set-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Action "Start" -Credential $Credential
     }
     "stop" {
-        Stop-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
+        Set-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Action "Stop" -Credential $Credential
     }
     "restart" {
-        Restart-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
+        Set-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Action "Restart" -Credential $Credential
     }
     default {
         Write-Error "Invalid action specified. Use 'start', 'stop', or 'restart'."
     }
-}
-
-$serviceCheck = Get-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
-
-if ($serviceCheck.Status -eq "Stopped") {
-    Write-Warning "The $($serviceCheck.Name) service is NOT running on $ComputerName. Starting the service..."
-    Start-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
-} else {
-    Write-Warning "The $($serviceCheck.Name) service is already running on $ComputerName. Restarting the service..."
-    Restart-SummitService -ComputerName $ComputerName -ServiceName $ServiceName -Credential $Credential
 }

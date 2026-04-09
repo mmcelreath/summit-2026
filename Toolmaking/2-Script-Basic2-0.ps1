@@ -2,7 +2,7 @@
 $ComputerName = "dc"
 $ServiceName = "bits"
 
-$credential = Get-Credential -Message "Enter credentials for $ComputerName"
+$credential = Get-Credential -Message "Enter credentials for $ComputerName" -UserName "home\matt"
 
 $service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
     Get-Service -Name $using:ServiceName

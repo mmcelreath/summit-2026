@@ -1,29 +1,33 @@
 param (
     $ComputerName,
     $ServiceName,
+    $Action,
     $Credential
 )
 
-$service = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-    Get-Service -Name $using:ServiceName
-}
-
-$service | Format-Table Name, Status, StartType
-
-if ($service.Status -eq "Running") {
-    Write-Warning "The $($service.Name) service is running on $ComputerName. Stopping the service..."
-    Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Stop-Service -Name $using:ServiceName
+switch ($Action) {
+    "Start" {
+        Write-Warning "Starting the service $ServiceName on $ComputerName."
+        Invoke-Command -ComputerName $ComputerName -Credential $Credential -ScriptBlock {
+            Start-Service -Name $using:ServiceName
+            Get-Service -Name $using:ServiceName | Format-Table Name, Status, StartType
+        }
     }
-} else {
-    Write-Warning "The $($service.Name) service is not running on $ComputerName. Starting the service..."
-    Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-        Start-Service -Name $using:ServiceName
+    "Stop" {
+        Write-Warning "Stopping the service $ServiceName on $ComputerName."
+        Invoke-Command -ComputerName $ComputerName -Credential $Credential -ScriptBlock {
+            Stop-Service -Name $using:ServiceName
+            Get-Service -Name $using:ServiceName | Format-Table Name, Status, StartType
+        }
+    }
+    "Restart" {
+        Write-Warning "Restarting the service $ServiceName on $ComputerName."
+        Invoke-Command -ComputerName $ComputerName -Credential $Credential -ScriptBlock {
+            Restart-Service -Name $using:ServiceName
+            Get-Service -Name $using:ServiceName | Format-Table Name, Status, StartType
+        }
+    }
+    Default {
+        Write-Warning "Invalid action specified. Please use 'Start', 'Stop', or 'Restart'."
     }
 }
-
-$serviceStatus = Invoke-Command -ComputerName $ComputerName -Credential $credential -ScriptBlock {
-    Get-Service -Name $using:ServiceName
-}
-
-$serviceStatus | Format-Table Name, Status, StartType

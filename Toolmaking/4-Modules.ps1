@@ -6,14 +6,13 @@ Get-Command -Module Summit-Toolbox
 
 Get-SummitGreeting
 
-Update-SummitService -ComputerName dc -ServiceName bits -Action Get -Credential $cred
+Update-SummitService -ComputerName dc -ServiceName bits -Action Get -Credential $credential
 
-Update-SummitService -ComputerName dc -ServiceName bits -Action Start -Credential $cred
+Update-SummitService -ComputerName dc -ServiceName bits -Action Start -Credential $credential
 
-Update-SummitService -ComputerName dc -ServiceName bits -Action Stop -Credential $cred
+Update-SummitService -ComputerName dc -ServiceName bits -Action Stop -Credential $credential
 
-Update-SummitService -ComputerName dc -ServiceName bits -Action Restart -Credential $cred
+Update-SummitService -ComputerName dc -ServiceName bits -Action Restart -Credential $credential
 
-Update-SummitService
 
-Get-BasicCommand
+Get-BasicCommand -CommandName "Testing 123"

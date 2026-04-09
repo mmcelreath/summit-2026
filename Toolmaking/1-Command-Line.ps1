@@ -3,6 +3,8 @@
 
 Get-ADUser
 
+Update-Help
+
 Get-Help Get-ADUser -Full
 Get-Help Get-ADUser -Examples
 
@@ -10,10 +12,10 @@ Get-Help Get-ADUser -Examples
 Get-ADUser -Filter *
 
 # Getting all users with a specific name
-Get-ADUser -Filter "Name -like '*Cooper*'"
+Get-ADUser -Filter "Name -eq 'Dale Cooper'"
 
 # Getting all properties for a specific user
-Get-ADUser -Filter "Name -like '*Cooper*'" -Properties *
+Get-ADUser -Filter "Name -eq 'Dale Cooper'" -Properties *
 
 # Filtering and selecting specific properties
 Get-ADUser -Filter * -SearchBase "OU=summit-users,DC=home,DC=lab" | Select-Object Name,SamAccountName,UserPrincipalName
@@ -27,3 +29,4 @@ Get-ADUser -Filter "Office -eq 'Twin Peaks'" -Properties * | Select-Object Name,
 # Exporting the results to a CSV file
 Get-ADUser -Filter "Office -eq 'Twin Peaks'" -Properties * | 
     Select-Object Name,Office,Description,whenCreated,LastLogonDate | Export-Csv -Path ".\ADUsers.csv" -NoTypeInformation
+
