@@ -1,46 +1,44 @@
 
 $Error.Clear()
+cls
+
+
+try {
+    1/0
+    Write-Host "Will this print?" -ForegroundColor Green
+} catch {
+    Write-Host "An error occurred: $_" -ForegroundColor Magenta
+}
+
 
 try {
     Get-ChildItem c:\Does-Not-Exist
+    Write-Host "Will this print?" -ForegroundColor Green
 } catch {
-    Write-Host "An error occurred: $_"
+    Write-Host "An error occurred: $_" -ForegroundColor Magenta
 }
+
 
 
 try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+    Write-Host "Will this print?" -ForegroundColor Green
 } catch {
     Write-Host "An error occurred: $_" -ForegroundColor Magenta
 }
+
 
 $Error[0]
 $Error[0] | Select-Object *
 
 $Error.Clear()
+cls
 
-
-function Test-Error {
-    # $ErrorActionPreference = "Stop"
-    1/0
-    Write-Host "Will this Print?" -ForegroundColor Magenta  # This will NOT print
-}
-
-Test-Error
-
-
-try {
-    1/0
-} catch {
-    Write-Host "An error occurred: $_" -ForegroundColor Magenta
-}
-
-$Error.Clear()
 
 
 Get-ChildItem c:\Does-Not-Exist
 
-$Error[0] | select-object *
+$Error[0].Exception | select-object *
 Get-Error -Newest 1
 
 $Error.Clear()
@@ -86,16 +84,18 @@ try {
 }
 
 $Error.Clear()
+cls
 
 try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
 } catch {
-    $_
+    throw
 }
 
-$Error
+$Error[0]
 
 $Error.Clear()
+cls
 
 try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
@@ -104,7 +104,25 @@ try {
 }
 
 $Error[0]
+
 $Error[1]
+
+
+
+$Error.Clear()
+
+try {
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+} catch {
+    throw
+    # throw "A custom error message"
+    # Write-Error "This is a Write-Error message."
+}
+
+$Error[0] | Select-Object *
+
+
+
 
 
 $ErrorActionPreference = 'Continue'

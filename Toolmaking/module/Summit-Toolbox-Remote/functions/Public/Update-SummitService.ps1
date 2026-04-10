@@ -29,6 +29,7 @@ Module: Summit-Toolbox
 function Update-SummitService {
     [CmdletBinding()]
     param (
+        [string]$ComputerName,
         [string]$ServiceName,
         [ValidateSet("Get", "Start", "Stop", "Restart")]
         [string]$Action,

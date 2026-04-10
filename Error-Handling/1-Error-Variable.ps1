@@ -50,6 +50,7 @@ $Error[0] | Format-Custom -Force
 $Error[0] | Select-Object *
 
 $Error[0].Exception
+$Error[0].InvocationInfo 
 $Error[0].ScriptStackTrace
 $Error[0].Exception.StackTrace
 
@@ -59,133 +60,150 @@ $Error[0].Exception.StackTrace
 $Error.Clear()
 cls
 
+function Trace-Test {
+    function Get-BadPath  { Get-ChildItem c:\Does-Not-Exist }
 
-try {
-    1/0
-} catch {
-    Write-Host "An error occurred: $_" -ForegroundColor Magenta
+    function Function1 { Get-BadPath }
+
+    function Function2 { Function1 }
+
+    function Function3 { Function2 }
+
+    Function3
+
 }
 
-
-try {
-    Get-ChildItem c:\Does-Not-Exist
-} catch {
-    Write-Host "An error occurred: $_" -ForegroundColor Magenta
-}
-
-
-try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch {
-    Write-Host "An error occurred: $_" -ForegroundColor Magenta
-}
+$error[0] | Select-Object *
 
 
 
-$Error[0]
-$Error[0] | Select-Object *
 
-Get-Error -Newest 1
-
-$Error.Clear()
-
-try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found." -ForegroundColor Magenta
-} catch {
-    Write-Host "A different error occurred: $_" -ForegroundColor Magenta
-}
-
-Get-Error -Newest 1
+# try {
+#     1/0
+# } catch {
+#     Write-Host "An error occurred: $_" -ForegroundColor Magenta
+# }
 
 
-try {
-    Get-ChildItem C:\code -ErrorAction Stop # This should succeed
-    1/0
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found." -ForegroundColor Magenta
-} catch {
-    Write-Host "A different error occurred: $_" -ForegroundColor Magenta
-}
-
-Get-Error -Newest 1
+# try {
+#     Get-ChildItem c:\Does-Not-Exist
+# } catch {
+#     Write-Host "An error occurred: $_" -ForegroundColor Magenta
+# }
 
 
-try {
-    1/0
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found."
-} catch [System.DivideByZeroException] {
-    Write-Host "A divide by zero error occurred" -ForegroundColor Magenta
-} catch {
-    Write-Host "An even different error occurred: $_" -ForegroundColor Magenta
-}
+# try {
+#     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+# } catch {
+#     Write-Host "An error occurred: $_" -ForegroundColor Magenta
+# }
 
 
 
-try {
-    Get-ChildItem2 c:\Does-Not-Exist
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found."
-} catch [System.DivideByZeroException] {
-    Write-Host "A divide by zero error occurred" -ForegroundColor Magenta
-} catch {
-    Write-Host "An even different error occurred" -ForegroundColor Magenta
-}
+# $Error[0]
+# $Error[0] | Select-Object *
+
+# Get-Error -Newest 1
+
+# $Error.Clear()
+
+# try {
+#     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+# } catch [System.Management.Automation.ItemNotFoundException] {
+#     Write-Host "The item was not found." -ForegroundColor Magenta
+# } catch {
+#     Write-Host "A different error occurred: $_" -ForegroundColor Magenta
+# }
+
+# Get-Error -Newest 1
 
 
-try {
-    Get-ChildItem2 c:\Does-Not-Exist
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "The item was not found."
-} catch [System.DivideByZeroException] {
-    Write-Host "A divide by zero error occurred"
-} catch [System.Management.Automation.CommandNotFoundException] {
-    Write-Host "The specified command was not found."
-} catch {
-    Write-Host "An even different error occurred"
-}
+# try {
+#     Get-ChildItem C:\code -ErrorAction Stop # This should succeed
+#     1/0
+# } catch [System.Management.Automation.ItemNotFoundException] {
+#     Write-Host "The item was not found." -ForegroundColor Magenta
+# } catch {
+#     Write-Host "A different error occurred: $_" -ForegroundColor Magenta
+# }
+
+# Get-Error -Newest 1
 
 
-try {
-    Get-ChildItem c:\Does-Not-Exist
-} catch {
-    Write-Error -ErrorRecord $_
-    'Will this Print?'
-}
-
-
-
-try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch {
-    Write-Error -ErrorRecord $_ -ErrorAction Stop
-    'Will this Print?'
-}
-
-
-try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch {
-    Write-Error "An error occurred: The specified path does not exist."
-}
-
-$Error[0] | Select-Object *
+# try {
+#     1/0
+# } catch [System.Management.Automation.ItemNotFoundException] {
+#     Write-Host "The item was not found."
+# } catch [System.DivideByZeroException] {
+#     Write-Host "A divide by zero error occurred" -ForegroundColor Magenta
+# } catch {
+#     Write-Host "An even different error occurred: $_" -ForegroundColor Magenta
+# }
 
 
 
-$ErrorActionPreference
+# try {
+#     Get-ChildItem2 c:\Does-Not-Exist
+# } catch [System.Management.Automation.ItemNotFoundException] {
+#     Write-Host "The item was not found."
+# } catch [System.DivideByZeroException] {
+#     Write-Host "A divide by zero error occurred" -ForegroundColor Magenta
+# } catch {
+#     Write-Host "An even different error occurred" -ForegroundColor Magenta
+# }
 
-$callerErrorActionPreference = $ErrorActionPreference
 
-try {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-} catch {
-    Write-Error -ErrorRecord $_ -ErrorAction $callerErrorActionPreference
-    'Will this Print?'
-}
+# try {
+#     Get-ChildItem2 c:\Does-Not-Exist
+# } catch [System.Management.Automation.ItemNotFoundException] {
+#     Write-Host "The item was not found."
+# } catch [System.DivideByZeroException] {
+#     Write-Host "A divide by zero error occurred"
+# } catch [System.Management.Automation.CommandNotFoundException] {
+#     Write-Host "The specified command was not found."
+# } catch {
+#     Write-Host "An even different error occurred"
+# }
 
-$ErrorActionPreference = 'SilentlyContinue'
-$ErrorActionPreference = 'Stop'
-$ErrorActionPreference = 'Continue'
+
+# try {
+#     Get-ChildItem c:\Does-Not-Exist
+# } catch {
+#     Write-Error -ErrorRecord $_
+#     'Will this Print?'
+# }
+
+
+
+# try {
+#     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+# } catch {
+#     Write-Error -ErrorRecord $_ -ErrorAction Stop
+#     'Will this Print?'
+# }
+
+
+# try {
+#     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+# } catch {
+#     Write-Error "An error occurred: The specified path does not exist."
+# }
+
+# $Error[0] | Select-Object *
+
+
+
+# $ErrorActionPreference
+
+# $callerErrorActionPreference = $ErrorActionPreference
+
+# try {
+#     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+# } catch {
+#     Write-Error -ErrorRecord $_ -ErrorAction $callerErrorActionPreference
+#     'Will this Print?'
+# }
+
+# $ErrorActionPreference = 'SilentlyContinue'
+# $ErrorActionPreference = 'Stop'
+# $ErrorActionPreference = 'Continue'

@@ -1,5 +1,6 @@
 
 $Error.Clear()
+cls
 
 function Test-Error {
     Get-ChildItem c:\Does-Not-Exist
@@ -12,12 +13,25 @@ Test-Error
 
 
 function Test-Error {
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+    param (
+        [ValidateSet("Break", "Continue", "Ignore", "Stop", "SilentlyContinue", "Inquire" , "Suspend")]
+        $errorAction = "Continue"
+    )
+    $variable1 = "Hello"; $variable2 = "Summit 2026!"
+
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction $errorAction
 
     Write-Host "Will this Print?" -ForegroundColor Magenta
 }
 
 Test-Error
+
+Test-Error -ErrorAction "Stop"
+Test-Error -ErrorAction "SilentlyContinue"
+Test-Error -ErrorAction "Ignore" # Does not add an error record to the $Error variable
+Test-Error -ErrorAction "Suspend"
+Test-Error -ErrorAction "Inquire"
+Test-Error -ErrorAction "Break"
 
 
 
@@ -43,6 +57,7 @@ Test-Error
 
 $Error.Clear()
 $Error
+cls
 
 function Test-Error {
     $ErrorActionPreference = "SilentlyContinue"
