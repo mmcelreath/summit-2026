@@ -12,24 +12,24 @@ Test-Error
 
 
 
-function Test-Error {
-    param (
-        [ValidateSet("Break", "Continue", "Ignore", "Stop", "SilentlyContinue", "Inquire" , "Suspend")]
-        $errorAction = "Continue"
-    )
-    $variable1 = "Hello"; $variable2 = "Summit 2026!"
+    function Test-Error {
+        param (
+            [ValidateSet("Break", "Continue", "Ignore", "Stop", "SilentlyContinue", "Inquire" , "Suspend")]
+            $errorAction = "Continue"
+        )
+        $variable1 = "Hello"; $variable2 = "Summit 2026!"
 
-    Get-ChildItem c:\Does-Not-Exist -ErrorAction $errorAction
+        Get-ChildItem c:\Does-Not-Exist -ErrorAction $errorAction
 
-    Write-Host "Will this Print?" -ForegroundColor Magenta
-}
+        Write-Host "Will this Print?" -ForegroundColor Magenta
+    }
 
 Test-Error
 
 Test-Error -ErrorAction "Stop"
 Test-Error -ErrorAction "SilentlyContinue"
 Test-Error -ErrorAction "Ignore" # Does not add an error record to the $Error variable
-Test-Error -ErrorAction "Suspend"
+Test-Error -ErrorAction "Suspend" # Only used in PowerShell Workflows
 Test-Error -ErrorAction "Inquire"
 Test-Error -ErrorAction "Break"
 

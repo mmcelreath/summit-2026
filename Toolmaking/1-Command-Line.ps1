@@ -14,6 +14,8 @@ Get-ADUser -Filter *
 # Getting all users with a specific name
 Get-ADUser -Filter "Name -eq 'Dale Cooper'"
 
+Get-ADUser -Filter "Name -eq 'Dale Cooper'" | Select-Object *
+
 # Getting all properties for a specific user
 Get-ADUser -Filter "Name -eq 'Dale Cooper'" -Properties *
 
