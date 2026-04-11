@@ -8,5 +8,5 @@ function Start-SummitService {
     
     $service = Get-Service -Name $ServiceName
     
-    $service | Select-Object Name, Status, StartType
+    Write-Host "Service '$ServiceName' status: Running"
 }

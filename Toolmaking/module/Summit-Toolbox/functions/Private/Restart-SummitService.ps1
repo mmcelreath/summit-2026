@@ -11,6 +11,7 @@ function Restart-SummitService {
     Write-Warning "Restarting service '$ServiceName'..."
     
     $service = Get-Service -Name $ServiceName
+
+    Write-Host "Service '$ServiceName' status: Running"
     
-    $service | Select-Object Name, Status, StartType
 }

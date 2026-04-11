@@ -8,5 +8,5 @@ function Get-SummitService {
 
     $service = Get-Service -Name $ServiceName
     
-    $service | Select-Object Name, Status, StartType
+    Write-Host "Service '$ServiceName' status: $($service.Status)"
 }
