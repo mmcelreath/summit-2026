@@ -1,9 +1,24 @@
+
+
 Get-ADUser -Filter "Office -eq 'Twin Peaks'" -Properties * | 
     Select-Object Name,Office,Description,whenCreated,LastLogonDate | Format-Table
 
-Get-ADUser -Identity "Dale.Cooper" -Properties * | Select-Object Name,Office,Description,whenCreated,LastLogonDate
 
-Set-ADUser -Identity "Dale.Cooper" -Office "Seattle" -Description "Moved to Seattle office"
+
+
+
+Get-ADUser -Identity "Dale.Cooper" -Properties * | 
+    Select-Object Name,Office,Description,whenCreated,LastLogonDate
+
+
+
+Set-ADUser -Identity "Dale.Cooper" `
+    -Office "Seattle" `
+    -Description "Moved to Seattle office"
+
+
+
+
 
 New-ADUser -Name "Pete Martell" `
     -GivenName "Pete" `
@@ -13,6 +28,7 @@ New-ADUser -Name "Pete Martell" `
     -Description "Gone Fishin'" `
     -Path "OU=summit-users,DC=home,DC=lab"
 
+    
 Get-ADUser -Identity "Pete.Martell" -Properties * | Select-Object Name,Office,Description,whenCreated,LastLogonDate
 
 
