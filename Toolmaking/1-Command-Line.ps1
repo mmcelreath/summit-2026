@@ -1,8 +1,10 @@
 
 # Exploring commands and parameters in PowerShell
 
+# Identify the command to get user information from Active Directory
 Get-ADUser
 
+# Get detailed information about the command and its parameters
 Update-Help
 
 Get-Help Get-ADUser -Full

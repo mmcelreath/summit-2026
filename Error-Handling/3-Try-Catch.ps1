@@ -176,3 +176,14 @@ Try {
 } finally {
     Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
 }
+
+
+# Throw error with an Exception Type
+Try {
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+} catch {
+    throw [System.Management.Automation.ItemNotFoundException]::new("test")
+} finally {
+    Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
+}
+
