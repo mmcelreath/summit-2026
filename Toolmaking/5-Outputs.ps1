@@ -92,3 +92,8 @@ Get-Stuff
 Get-Stuff | Get-Member
 
 Get-Stuff | Select-Object -ExpandProperty RunningServices | Get-Member
+
+
+
+$services = Get-Stuff | Select-Object -ExpandProperty RunningServices
+$services | Get-Service

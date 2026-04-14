@@ -7,8 +7,9 @@ Get-ADUser
 # Get detailed information about the command and its parameters
 Update-Help
 
-Get-Help Get-ADUser -Full
+Get-Help Get-ADUser
 Get-Help Get-ADUser -Examples
+Get-Help Get-ADUser -Full
 
 # Getting all users in Active Directory
 Get-ADUser -Filter *
