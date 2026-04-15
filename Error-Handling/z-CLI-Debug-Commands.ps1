@@ -11,6 +11,8 @@ $ErrorActionPreference = 'break'
 
 .\z-CLI-Debug-Script.ps1
 
+$ErrorActionPreference = 'Continue'
+
 
 $breakpoint = Get-PSBreakpoint -Script ".\z-CLI-Debug-Script.ps1"
 Remove-PSBreakpoint -Breakpoint $breakpoint
