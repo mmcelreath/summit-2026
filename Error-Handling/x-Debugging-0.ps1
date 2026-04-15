@@ -5,7 +5,8 @@ function Test-Error {
         [ValidateSet("Break", "Continue", "Ignore", "Stop", "SilentlyContinue", "Inquire" , "Suspend")]
         $errorAction = "Continue"
     )
-    $variable1 = "Hello"; $variable2 = "Summit 2026!"
+    $variable1 = "Hello"
+    $variable2 = "Summit 2026!"
 
     Get-ChildItem c:\Does-Not-Exist -ErrorAction $errorAction
 
