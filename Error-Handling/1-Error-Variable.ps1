@@ -71,6 +71,7 @@ $Error[0].Exception.StackTrace
 $Error.Clear()
 cls
 
+# ScriptStackTrace example
 function Trace-Test {
     function Get-BadPath  { Get-ChildItem c:\Does-Not-Exist }
 
