@@ -2,3 +2,11 @@
 
 
 Set-PSBreakpoint -Script ".\z-CLI-Debug-Script.ps1" -Line 4
+
+Get-PSBreakpoint -Script ".\z-CLI-Debug-Script.ps1"
+
+
+$breakpoint = Get-PSBreakpoint -Script ".\z-CLI-Debug-Script.ps1"
+Remove-PSBreakpoint -Script ".\z-CLI-Debug-Script.ps1" -Breakpoint $breakpoint
+
+

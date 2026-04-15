@@ -130,9 +130,9 @@ $Error.Clear()
 try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
 } catch {
-    # throw
+    throw
     # throw "A custom error message"
-    Write-Error "This is a Write-Error message."
+    # Write-Error "This is a Write-Error message."
     Write-Host "Will this print?" -ForegroundColor Magenta
 }
 
@@ -151,26 +151,6 @@ try {
     Write-Host "Will this print?" -ForegroundColor Magenta
 }
 
-
-# Using the caller's ErrorActionPreference
-$ErrorActionPreference = 'Continue'
-
-function Test-Error {
-    $callerErrorActionPreference = $ErrorActionPreference
-    try {
-        Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
-    } catch {
-        Write-Error -ErrorRecord $_ -ErrorAction $callerErrorActionPreference
-        Write-Host "Will this Print?" -ForegroundColor Magenta
-    }
-}
-
-Test-Error
-
-$Error[0] | Select-Object *
-
-
-$ErrorActionPreference = 'Continue'
 
 $Error.Clear()
 cls
@@ -197,6 +177,29 @@ $Error[0]
 $Error[1]
 
 
+$Error.Clear()
+cls
+
+# Using the caller's ErrorActionPreference
+$ErrorActionPreference = 'Inquire'
+
+function Test-Error {
+    $callerErrorActionPreference = $ErrorActionPreference
+    try {
+        Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+    } catch {
+        Write-Error -ErrorRecord $_ -ErrorAction $callerErrorActionPreference
+        Write-Host "Will this Print?" -ForegroundColor Magenta
+    }
+}
+
+Test-Error
+
+
+
+$ErrorActionPreference = 'Continue'
+
+
 # Finally
 Try {
     Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
@@ -205,6 +208,7 @@ Try {
 } finally {
     Write-Host "This will always execute, even if an error is thrown." -ForegroundColor Magenta
 }
+
 
 
 # Throw error with an Exception Type

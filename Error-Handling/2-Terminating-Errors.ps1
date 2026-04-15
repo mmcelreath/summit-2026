@@ -2,6 +2,7 @@
 $Error.Clear()
 cls
 
+
 function Test-Error {
     Get-ChildItem c:\Does-Not-Exist
 
@@ -18,6 +19,7 @@ function Test-Error {
 }
 
 Test-Error
+
 
 $ErrorActionPreference # Continue, SilentlyContinue, Ignore, Stop, Break, Inquire, Suspend
 
@@ -63,6 +65,7 @@ function Test-Error {
 }
 
 Test-Error
+
 
 
 $Error.Clear()
