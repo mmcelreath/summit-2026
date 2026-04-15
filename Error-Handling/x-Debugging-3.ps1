@@ -8,3 +8,5 @@ $action = "Restart"
 Update-SummitService -ServiceName $serviceName -Action $action
 
 Write-Host "Done"
+
+
