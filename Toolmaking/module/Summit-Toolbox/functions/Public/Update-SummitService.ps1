@@ -31,8 +31,7 @@ function Update-SummitService {
     param (
         [string]$ServiceName,
         [ValidateSet("Get", "Start", "Stop", "Restart")]
-        [string]$Action,
-        [PSCredential]$Credential
+        [string]$Action
     )
 
     switch ($Action.ToLower()) {
