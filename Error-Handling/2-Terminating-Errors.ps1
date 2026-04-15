@@ -11,6 +11,16 @@ function Test-Error {
 Test-Error
 
 
+function Test-Error {
+    Get-ChildItem c:\Does-Not-Exist -ErrorAction Stop
+
+    Write-Host "Will this Print?" -ForegroundColor Magenta
+}
+
+Test-Error
+
+$ErrorActionPreference # Continue, SilentlyContinue, Ignore, Stop, Break, Inquire, Suspend
+
 
 function Test-Error {
     param (

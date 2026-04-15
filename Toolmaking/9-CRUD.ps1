@@ -6,7 +6,6 @@ Get-ADUser -Filter "Office -eq 'Twin Peaks'" -Properties * |
 
 
 
-
 Get-ADUser -Identity "Dale.Cooper" -Properties * | 
     Select-Object Name,Office,Description,whenCreated,LastLogonDate
 
@@ -17,7 +16,8 @@ Set-ADUser -Identity "Dale.Cooper" `
     -Description "Moved to Seattle office"
 
 
-
+Get-ADUser -Identity "Dale.Cooper" -Properties * | 
+    Select-Object Name,Office,Description,whenCreated,LastLogonDate
 
 
 New-ADUser -Name "Pete Martell" `

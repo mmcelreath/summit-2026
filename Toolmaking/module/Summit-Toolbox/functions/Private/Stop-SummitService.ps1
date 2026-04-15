@@ -6,8 +6,6 @@ function Stop-SummitService {
 
     Write-Warning "Stopping service '$ServiceName'"
     
-    Write-Warning "Starting service '$ServiceName'..."
-    
     $service = Get-Service -Name $ServiceName
 
     Write-Host "Service '$ServiceName' status: Stopped"

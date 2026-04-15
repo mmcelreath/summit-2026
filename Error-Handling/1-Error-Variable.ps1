@@ -35,6 +35,17 @@ $Error
 # Generate some more errors
 Get-ChildItem c:\Does-Not-Exist
 
+# Error view options
+$ErrorView # ConciseView, CategoryView, DetailedView, NormalView 
+
+$ErrorView = 'DetailedView'
+
+Get-ChildItem c:\Does-Not-Exist
+
+
+$ErrorView = 'ConciseView'
+
+
 # Get error details
 $Error[0]
 
@@ -72,6 +83,8 @@ function Trace-Test {
     Function3
 
 }
+
+Trace-Test
 
 $error[0] | Select-Object *
 
