@@ -1,3 +1,7 @@
+#########################
+## Script using parameters for flexibility:
+#########################
+
 param (
     $ComputerName,
     $ServiceName,

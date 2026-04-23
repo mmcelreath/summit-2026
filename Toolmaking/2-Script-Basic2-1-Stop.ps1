@@ -1,3 +1,6 @@
+#########################
+## Basic Script with hard coded variables:
+#########################
 
 $ComputerName = "dc"
 $ServiceName = "bits"

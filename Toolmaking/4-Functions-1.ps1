@@ -1,3 +1,8 @@
+#########################
+## Script that uses comment based help documentation and a function:
+#########################
+
+
 <#
 .SYNOPSIS
 Manage Summit services remotely (get, start, stop, restart).

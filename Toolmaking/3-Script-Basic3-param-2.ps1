@@ -1,3 +1,7 @@
+#########################
+## Script that uses parameters, parameter types and parameter validation:
+#########################
+
 param (
     [string]$ComputerName,
     [string]$ServiceName,

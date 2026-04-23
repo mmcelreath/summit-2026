@@ -5,7 +5,7 @@ Import-Module ActiveDirectory
 
 $ou = "OU=summit-users,DC=home,DC=lab"
 $domain = "home.lab"
-$passwordPlain = "P@ssw0rd123!"
+$passwordPlain = (New-Guid).Guid
 $securePassword = ConvertTo-SecureString $passwordPlain -AsPlainText -Force
 
 $firstNames = @("Avery","Bailey","Camden","Delaney","Emerson","Finley","Gray","Harper","Indigo","Jules")

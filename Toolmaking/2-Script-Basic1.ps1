@@ -1,3 +1,6 @@
+#########################
+## Basic Script Example:
+#########################
 
 $credential = Get-Credential -UserName "home\matt" -Message "Enter password for home\matt"
 
